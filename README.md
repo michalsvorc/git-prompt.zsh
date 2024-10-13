@@ -2,6 +2,10 @@
 
 Forked from [woefe/git-prompt.zsh](https://github.com/woefe/git-prompt.zsh).
 
+## Changes
+
+- Use ASCII characters.
+
 ## Dependencies
 
 - Git >= v2.11.0
