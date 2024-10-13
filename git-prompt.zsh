@@ -54,6 +54,8 @@
 : "${ZSH_THEME_GIT_PROMPT_TAGS_PREFIX="# "}"
 : "${ZSH_THEME_GIT_PROMPT_TAGS_SUFFIX=""}"
 : "${ZSH_THEME_GIT_PROMPT_TAG="%{$fg[magenta]%}"}"
+: "${ZSH_THEME_GIT_PROMPT_COMMIT_HASH_PREFIX="%{$fg[white]%}(%{$fg[cyan]%}"}"
+: "${ZSH_THEME_GIT_PROMPT_COMMIT_HASH_SUFFIX="%{$fg[white]%})"}"
 
 # Disable promptinit if it is loaded
 (( $+functions[promptinit] )) && {promptinit; prompt off}
@@ -92,6 +94,8 @@ function _zsh_git_prompt_git_status() {
         -v STAGED="$ZSH_THEME_GIT_PROMPT_STAGED" \
         -v UNSTAGED="$ZSH_THEME_GIT_PROMPT_UNSTAGED" \
         -v UNTRACKED="$ZSH_THEME_GIT_PROMPT_UNTRACKED" \
+        -v COMMIT_HASH_PREFIX="$ZSH_THEME_GIT_PROMPT_COMMIT_HASH_PREFIX" \
+        -v COMMIT_HASH_SUFFIX="$ZSH_THEME_GIT_PROMPT_COMMIT_HASH_SUFFIX" \
         -v RC="%{$reset_color%}" \
         '
             BEGIN {
@@ -186,6 +190,10 @@ function _zsh_git_prompt_git_status() {
                 } else {
                     prompt_element(BRANCH, head);
                 }
+
+                # commit hash
+                commit_hash = substr(oid, 1, 7)
+                prompt_element(COMMIT_HASH_PREFIX, commit_hash, COMMIT_HASH_SUFFIX);
 
                 if (upstream == "") {
                     prompt_element(UPSTREAM_NO_TRACKING);
