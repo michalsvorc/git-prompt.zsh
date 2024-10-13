@@ -49,7 +49,7 @@ autoload -U colors && colors
 : "${ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}x"}"
 : "${ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}+"}"
 : "${ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"}"
-: "${ZSH_THEME_GIT_PROMPT_UNTRACKED="?"}"
+: "${ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg[red]%}?"}"
 : "${ZSH_THEME_GIT_PROMPT_SECONDARY_PREFIX=""}"
 : "${ZSH_THEME_GIT_PROMPT_SECONDARY_SUFFIX=""}"
 : "${ZSH_THEME_GIT_PROMPT_TAGS_SEPARATOR=", "}"
