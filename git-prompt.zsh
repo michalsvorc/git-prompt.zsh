@@ -41,12 +41,12 @@ autoload -U colors && colors
 : "${ZSH_THEME_GIT_PROMPT_SEPARATOR="|"}"
 : "${ZSH_THEME_GIT_PROMPT_DETACHED="%{$fg[cyan]%}:"}"
 : "${ZSH_THEME_GIT_PROMPT_BRANCH="%{$fg[magenta]%}"}"
-: "${ZSH_THEME_GIT_PROMPT_UPSTREAM_SYMBOL="%{$fg[yellow]%}* "}"
 : "${ZSH_THEME_GIT_PROMPT_UPSTREAM_NO_TRACKING=""}"
 : "${ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX="%{$fg[red]%}(%{$fg[yellow]%}"}"
 : "${ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX="%{$fg[red]%})"}"
-: "${ZSH_THEME_GIT_PROMPT_BEHIND="<"}"
-: "${ZSH_THEME_GIT_PROMPT_AHEAD=">"}"
+: "${ZSH_THEME_GIT_PROMPT_BEHIND="%{$fg[yellow]%}<"}"
+: "${ZSH_THEME_GIT_PROMPT_AHEAD="%{$fg[yellow]%}>"}"
+: "${ZSH_THEME_GIT_PROMPT_SYNCED="%{$fg[yellow]%}="}"
 : "${ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg[red]%}x"}"
 : "${ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}+"}"
 : "${ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"}"
@@ -108,7 +108,7 @@ function _zsh_git_prompt_git_status() {
         -v UPSTREAM_TYPE="$ZSH_GIT_PROMPT_SHOW_UPSTREAM" \
         -v SHOW_TRACKING_COUNTS="$ZSH_GIT_PROMPT_SHOW_TRACKING_COUNTS" \
         -v SHOW_LOCAL_COUNTS="$ZSH_GIT_PROMPT_SHOW_LOCAL_COUNTS" \
-        -v UPSTREAM_SYMBOL="$ZSH_THEME_GIT_PROMPT_UPSTREAM_SYMBOL" \
+        -v UPSTREAM_SYNCED="$ZSH_THEME_GIT_PROMPT_SYNCED" \
         -v UPSTREAM_NO_TRACKING="$ZSH_THEME_GIT_PROMPT_UPSTREAM_NO_TRACKING" \
         -v UPSTREAM_PREFIX="$ZSH_THEME_GIT_PROMPT_UPSTREAM_PREFIX" \
         -v UPSTREAM_SUFFIX="$ZSH_THEME_GIT_PROMPT_UPSTREAM_SUFFIX" \
@@ -223,8 +223,8 @@ function _zsh_git_prompt_git_status() {
 
                 if (upstream == "") {
                     prompt_element(UPSTREAM_NO_TRACKING);
-                } else if (UPSTREAM_TYPE == "symbol") {
-                    prompt_element(UPSTREAM_SYMBOL);
+                } else if (UPSTREAM_TYPE == "symbol" && behind == 0 && ahead == 0) {
+                    prompt_element(UPSTREAM_SYNCED);
                 } else if (UPSTREAM_TYPE == "full") {
                     prompt_element(UPSTREAM_PREFIX, upstream, UPSTREAM_SUFFIX);
                 }
