@@ -27,7 +27,6 @@ autoload -U colors && colors
 
 # Settings
 : "${ZSH_GIT_PROMPT_SHOW_UPSTREAM="symbol"}"
-: "${ZSH_GIT_PROMPT_SHOW_STASH=""}"
 : "${ZSH_GIT_PROMPT_SHOW_TRACKING_COUNTS="1"}"
 : "${ZSH_GIT_PROMPT_SHOW_LOCAL_COUNTS="1"}"
 : "${ZSH_GIT_PROMPT_ENABLE_SECONDARY=""}"
@@ -51,7 +50,6 @@ autoload -U colors && colors
 : "${ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}+"}"
 : "${ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"}"
 : "${ZSH_THEME_GIT_PROMPT_UNTRACKED="?"}"
-: "${ZSH_THEME_GIT_PROMPT_STASHED="%{$fg[blue]%}%"}"
 : "${ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}/"}"
 : "${ZSH_THEME_GIT_PROMPT_SECONDARY_PREFIX=""}"
 : "${ZSH_THEME_GIT_PROMPT_SECONDARY_SUFFIX=""}"
@@ -77,25 +75,10 @@ setopt PROMPT_SUBST
 (( $+commands[nawk] ))  &&  : "${ZSH_GIT_PROMPT_AWK_CMD:=nawk}"
                             : "${ZSH_GIT_PROMPT_AWK_CMD:=awk}"
 
-# Use --show-stash for git versions newer than 2.35.0
-_zsh_git_prompt_git_version=$(command git version)
-if [[ "${_zsh_git_prompt_git_version:12}" == 2.<35->.<-> ]]; then
     _zsh_git_prompt_git_cmd() {
-        GIT_OPTIONAL_LOCKS=0 command git status --show-stash --branch --porcelain=v2 2>&1 \
-            || echo "fatal: git command failed"
-    }
-else
-    _zsh_git_prompt_git_cmd() {
-        [[ -n "$ZSH_GIT_PROMPT_SHOW_STASH" ]] && (
-            c=$(command git rev-list --walk-reflogs --count refs/stash 2> /dev/null)
-            [[ -n "$c" ]] && echo "# stash $c"
-        )
         GIT_OPTIONAL_LOCKS=0 command git status --branch --porcelain=v2 2>&1 \
             || echo "fatal: git command failed"
     }
-fi
-unset _zsh_git_prompt_git_version
-
 
 function _zsh_git_prompt_git_status() {
     emulate -L zsh
@@ -118,8 +101,6 @@ function _zsh_git_prompt_git_status() {
         -v STAGED="$ZSH_THEME_GIT_PROMPT_STAGED" \
         -v UNSTAGED="$ZSH_THEME_GIT_PROMPT_UNSTAGED" \
         -v UNTRACKED="$ZSH_THEME_GIT_PROMPT_UNTRACKED" \
-        -v STASHED="$ZSH_THEME_GIT_PROMPT_STASHED" \
-        -v SHOW_STASH="$ZSH_GIT_PROMPT_SHOW_STASH" \
         -v CLEAN="$ZSH_THEME_GIT_PROMPT_CLEAN" \
         -v RC="%{$reset_color%}" \
         '
@@ -136,7 +117,6 @@ function _zsh_git_prompt_git_status() {
                 unmerged = 0;
                 staged = 0;
                 unstaged = 0;
-                stashed = 0;
             }
 
             function prompt_element(prefix, content, suffix) {
@@ -204,9 +184,6 @@ function _zsh_git_prompt_git_status() {
                 }
             }
 
-            $2 == "stash" {
-                stashed = $3;
-            }
 
             END {
                 if (fatal == 1) {
@@ -242,10 +219,6 @@ function _zsh_git_prompt_git_status() {
                 local_element(UNSTAGED, unstaged);
 
                 local_element(UNTRACKED, untracked);
-
-                if (SHOW_STASH) {
-                    local_element(STASHED, stashed);
-                }
 
                 if (unmerged == 0 && staged == 0 && unstaged == 0 && untracked == 0) {
                     prompt_element(CLEAN);
