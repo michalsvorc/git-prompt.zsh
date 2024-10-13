@@ -26,7 +26,7 @@
 autoload -U colors && colors
 
 # Settings
-: "${ZSH_GIT_PROMPT_SHOW_UPSTREAM=""}"
+: "${ZSH_GIT_PROMPT_SHOW_UPSTREAM="symbol"}"
 : "${ZSH_GIT_PROMPT_SHOW_STASH=""}"
 : "${ZSH_GIT_PROMPT_SHOW_TRACKING_COUNTS="1"}"
 : "${ZSH_GIT_PROMPT_SHOW_LOCAL_COUNTS="1"}"
