@@ -23,8 +23,6 @@
 # See [README](https://github.com/michalsvorc/git-prompt.zsh/blob/master/README.md)
 # for list of changes.
 
-autoload -U colors && colors
-
 # Settings
 : "${ZSH_GIT_PROMPT_SHOW_UPSTREAM="symbol"}"
 : "${ZSH_GIT_PROMPT_SHOW_TRACKING_COUNTS="1"}"

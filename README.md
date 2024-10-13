@@ -5,9 +5,10 @@ Forked from [woefe/git-prompt.zsh](https://github.com/woefe/git-prompt.zsh).
 ## Changes
 
 - Use ASCII characters.
-- Show "=" sign when synced with upstream branch instead of static upstream symbol.
+- Show `=` sign when synced with upstream branch instead of static upstream symbol.
 - Remove displaying of stash.
 - Remove clean status symbol.
+- Expect colors to be auto loaded in environment.
 
 ## Dependencies
 
@@ -16,6 +17,7 @@ Forked from [woefe/git-prompt.zsh](https://github.com/woefe/git-prompt.zsh).
 
 ## Usage
 
-Load the `git-prompt.zsh` file in your ZSH configuration file, e.g. `.zshrc`.
-Use `'$(gitprompt)'` to get the Git prompt.
+- Load the `git-prompt.zsh` file in your ZSH configuration file, e.g. `.zshrc`.
+- Use `autoload -U colors && colors`
+- Add `'$(gitprompt)'` to your prompt.
 
