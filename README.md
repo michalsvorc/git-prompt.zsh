@@ -1,4 +1,8 @@
-<h1><img src="screenshot.svg" width="800" /></h1>
+# Git prompt for ZSH
+
+Forked from [woefe/git-prompt.zsh](https://github.com/woefe/git-prompt.zsh).
+
+---
 
 A fast, customizable, pure-shell, asynchronous Git prompt for Zsh.
 It is heavily inspired by Olivier Verdier's [zsh-git-prompt](https://github.com/olivierverdier/zsh-git-prompt) and very similar to the "Informative VCS" prompt of fish shell.
