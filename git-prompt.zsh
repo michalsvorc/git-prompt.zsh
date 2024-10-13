@@ -68,7 +68,7 @@ setopt PROMPT_SUBST
                             : "${ZSH_GIT_PROMPT_AWK_CMD:=awk}"
 
     _zsh_git_prompt_git_cmd() {
-        GIT_OPTIONAL_LOCKS=0 command git status --branch --porcelain=v2 2>&1 \
+        command git --no-optional-locks status --branch --porcelain=v2 2>&1 \
             || echo "fatal: git command failed"
     }
 function _zsh_git_prompt_git_status() {
