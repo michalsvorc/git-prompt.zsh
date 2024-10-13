@@ -7,6 +7,7 @@ Forked from [woefe/git-prompt.zsh](https://github.com/woefe/git-prompt.zsh).
 - Use ASCII characters.
 - Show "=" sign when synced with upstream branch instead of static upstream symbol.
 - Remove displaying of stash.
+- Remove clean status symbol.
 
 ## Dependencies
 

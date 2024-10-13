@@ -50,7 +50,6 @@ autoload -U colors && colors
 : "${ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%}+"}"
 : "${ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$fg[red]%}+"}"
 : "${ZSH_THEME_GIT_PROMPT_UNTRACKED="?"}"
-: "${ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}/"}"
 : "${ZSH_THEME_GIT_PROMPT_SECONDARY_PREFIX=""}"
 : "${ZSH_THEME_GIT_PROMPT_SECONDARY_SUFFIX=""}"
 : "${ZSH_THEME_GIT_PROMPT_TAGS_SEPARATOR=", "}"
@@ -79,7 +78,6 @@ setopt PROMPT_SUBST
         GIT_OPTIONAL_LOCKS=0 command git status --branch --porcelain=v2 2>&1 \
             || echo "fatal: git command failed"
     }
-
 function _zsh_git_prompt_git_status() {
     emulate -L zsh
     _zsh_git_prompt_git_cmd | $ZSH_GIT_PROMPT_AWK_CMD \
@@ -101,7 +99,6 @@ function _zsh_git_prompt_git_status() {
         -v STAGED="$ZSH_THEME_GIT_PROMPT_STAGED" \
         -v UNSTAGED="$ZSH_THEME_GIT_PROMPT_UNSTAGED" \
         -v UNTRACKED="$ZSH_THEME_GIT_PROMPT_UNTRACKED" \
-        -v CLEAN="$ZSH_THEME_GIT_PROMPT_CLEAN" \
         -v RC="%{$reset_color%}" \
         '
             BEGIN {
@@ -184,7 +181,6 @@ function _zsh_git_prompt_git_status() {
                 }
             }
 
-
             END {
                 if (fatal == 1) {
                     exit(1);
@@ -210,7 +206,11 @@ function _zsh_git_prompt_git_status() {
 
                 tracking_element(AHEAD, ahead * 1);
 
-                prompt_element(SEPARATOR);
+                if (unmerged == 0 && staged == 0 && unstaged == 0 && untracked == 0) {
+                    # clean
+                } else {
+                    prompt_element(SEPARATOR);
+                }
 
                 local_element(UNMERGED, unmerged);
 
@@ -219,10 +219,6 @@ function _zsh_git_prompt_git_status() {
                 local_element(UNSTAGED, unstaged);
 
                 local_element(UNTRACKED, untracked);
-
-                if (unmerged == 0 && staged == 0 && unstaged == 0 && untracked == 0) {
-                    prompt_element(CLEAN);
-                }
 
                 prompt_element(SUFFIX);
             }
