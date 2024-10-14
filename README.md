@@ -7,6 +7,7 @@ Forked from [woefe/git-prompt.zsh](https://github.com/woefe/git-prompt.zsh).
 - Use ASCII characters.
 - Show short commit hash.
 - Show `=` sign when synced with upstream branch instead of static upstream symbol.
+- Remove secondary prompt.
 - Remove displaying of stash.
 - Remove clean status symbol.
 - Expect colors to be already loaded in shell environment.
